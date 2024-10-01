@@ -5,8 +5,7 @@
 </head>
 <body>
 <form action="user" method="post">
-    <%--@declare id="role"--%><%--@declare id="managerid"--%>
-    <input type="text" name="username" placeholder="Username" required>
+    <%--@declare id="role"--%><%--@declare id="managerid"--%><input type="text" name="username" placeholder="Username" required>
     <input type="password" name="password" placeholder="Password" required>
     <input type="text" name="firstName" placeholder="First Name" required>
     <input type="text" name="lastName" placeholder="Last Name" required>
@@ -26,7 +25,6 @@
 
 <h2>All Users:</h2>
 <ul>
-    <jsp:useBean id="users" scope="request" type="java.util.List"/>
     <c:forEach var="user" items="${users}">
         <li>${user.username} (${user.firstName} ${user.lastName}) - ${user.role}</li>
     </c:forEach>

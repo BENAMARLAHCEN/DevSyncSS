@@ -9,16 +9,12 @@
             <property name="jakarta.persistence.jdbc.user" value="admin"/>
             <property name="jakarta.persistence.jdbc.password" value="admin"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <!-- Hibernate properties -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
 
-
-            <!-- <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/dev_sync_db"/> -->
-            <!-- <property name="hibernate.connection.username" value="admin"/> -->
-            <!-- <property name="hibernate.connection.password" value="admin"/> -->
-            <!-- <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/> -->
-            <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/> -->
-            <!-- <property name="hibernate.hbm2ddl.auto" value="update"/> -->
-            <!-- <property name="hibernate.show_sql" value="true"/> -->
-            <!-- <property name="hibernate.format_sql" value="true"/> -->
 
         </properties>
     </persistence-unit>
