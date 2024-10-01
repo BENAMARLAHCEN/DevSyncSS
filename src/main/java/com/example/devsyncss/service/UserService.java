@@ -10,7 +10,6 @@ import java.util.List;
 
 public class UserService implements IUserService {
 
-
     private final IUserRepository userRepository;
 
     public UserService() {
@@ -27,6 +26,14 @@ public class UserService implements IUserService {
             }
         }
         userRepository.save(user);
+    }
+
+    public boolean registerUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()) != null) {
+            return false;
+        }
+        userRepository.save(user);
+        return true;
     }
 
     public List<User> getAllUsers() {

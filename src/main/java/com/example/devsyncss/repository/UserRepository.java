@@ -4,14 +4,13 @@ import com.example.devsyncss.entities.User;
 import com.example.devsyncss.repository.interfc.IUserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 
 public class UserRepository implements IUserRepository {
-    
+
     private final EntityManager em;
 
     public UserRepository() {
@@ -34,9 +33,13 @@ public class UserRepository implements IUserRepository {
     }
 
     public User findByEmail(String email) {
-        return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
-                .setParameter("email", email)
-                .getSingleResult();
+        try {
+            return em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public void update(User user) {
