@@ -15,4 +15,8 @@ public interface IUserService {
     User getUserByEmail(String email);
 
     User getUserById(Long managerId);
+
+    boolean deleteUser(User user);
+
+    boolean updateUser(User user);
 }

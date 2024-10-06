@@ -53,4 +53,28 @@ public class UserService implements IUserService {
         }
         return userRepository.findById(id);
     }
+
+    public boolean deleteUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        try {
+            userRepository.delete(user.getId());
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        try {
+            userRepository.update(user);
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
+    }
 }

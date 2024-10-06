@@ -3,6 +3,8 @@ package com.example.devsyncss.entities;
 import com.example.devsyncss.entities.enums.Role;
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -33,6 +35,15 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private User manager;
+
+    @OneToMany(mappedBy = "assignedTo")
+    private Set<Task> tasks;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Token> tokens;
+
+    @OneToMany(mappedBy = "createdBy")
+    private Set<Task> createdTasks;
 
     public User() {
     }
