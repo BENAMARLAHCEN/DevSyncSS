@@ -44,7 +44,9 @@ public class DeleteProfileServlet extends HttpServlet {
                 resp.sendRedirect("login");
                 return;
             }
-            req.setAttribute("error", "An error occurred. Please try again");
+            req.setAttribute("er" +
+                    "" +
+                    "ror", "An error occurred. Please try again");
             req.getRequestDispatcher("/profile.jsp").forward(req, resp);
             return;
         }
