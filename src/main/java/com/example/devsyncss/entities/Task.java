@@ -8,6 +8,7 @@ import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 @Entity
@@ -25,7 +26,7 @@ public class Task {
     private String description;
 
     @Column(name = "creation_date", nullable = false)
-    @PastOrPresent
+    @PastOrPresent(message = "Creation date cannot be in the past")
     private LocalDateTime creationDate;
 
     @Column(name = "due_date", nullable = false)
@@ -108,6 +109,9 @@ public class Task {
     }
 
     public void setDueDate(@Future LocalDateTime dueDate) {
+        if (ChronoUnit.DAYS.between(creationDate, dueDate) < 3) {
+            throw new IllegalArgumentException("Due date must be at least 3 days after creation date");
+        }
         this.dueDate = dueDate;
     }
 
