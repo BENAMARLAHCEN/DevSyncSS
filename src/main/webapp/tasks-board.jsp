@@ -43,7 +43,7 @@
     <h1 class="text-center mb-4">DevSync Task Board</h1>
     <div class="row">
         <div class="col-md-4 mb-4">
-            <div class="task-column" id="todo">
+            <div class="task-column" id="PENDING">
                 <h2 class="h4 mb-3">To Do</h2>
                 <%
                     List<Task> tasks = (List<Task>)request.getAttribute("tasks");
@@ -100,7 +100,7 @@
             </div>
         </div>
         <div class="col-md-4 mb-4">
-            <div class="task-column" id="done">
+            <div class="task-column" id="COMPLETED">
                 <h2 class="h4 mb-3">Done</h2>
                 <%
                     for (Task task : tasks) {
@@ -174,17 +174,14 @@
             this.classList.remove('drag-over');
             const task = document.querySelector('.dragging');
             this.appendChild(task);
-
-            // Get the new status from the column id
             const newStatus = this.id.toUpperCase().replace('-', '_');
             const taskId = task.id.split('-')[1];
 
-            // Send an AJAX request to update the task status
             updateTaskStatus(taskId, newStatus);
         }
 
         function updateTaskStatus(taskId, newStatus) {
-            fetch('/tasks/updateStatus', {
+            fetch('<%= request.getContextPath() %>/update-status', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
