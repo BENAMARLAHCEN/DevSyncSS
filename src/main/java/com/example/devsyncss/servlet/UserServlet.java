@@ -96,10 +96,12 @@ public class UserServlet extends HttpServlet {
             if (username == null || username.isEmpty() || firstName == null || firstName.isEmpty() || lastName == null || lastName.isEmpty() || email == null || email.isEmpty() || role == null) {
                 req.setAttribute("error", "All fields are required");
                 resp.sendRedirect("users");
+                return;
             }
             if (role == Role.USER && managerId == null) {
                 req.setAttribute("error", "Manager ID is required for user role");
                 resp.sendRedirect("users");
+                return;
             }
 
             if (password != null && !password.isEmpty()) {
@@ -136,16 +138,19 @@ public class UserServlet extends HttpServlet {
             if (username == null || username.isEmpty() || password == null || password.isEmpty() || firstName == null || firstName.isEmpty() || lastName == null || lastName.isEmpty() || email == null || email.isEmpty() || role == null) {
                 req.setAttribute("error", "All fields are required");
                 resp.sendRedirect("users");
+                return;
             }
 
             if (role == Role.USER && managerId == null) {
                 req.getSession().setAttribute("error", "Manager ID is required for user role");
                 resp.sendRedirect("users");
+                return;
             }
 
             if (userService.getUserByEmail(email) != null) {
                 req.getSession().setAttribute("error", "User with this email already exists");
                 resp.sendRedirect("users");
+                return;
             }
 
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -160,20 +165,20 @@ public class UserServlet extends HttpServlet {
                 try {
                     user.setManager(userService.getUserById(managerId));
                 } catch (IllegalArgumentException e) {
-                    req.getSession().setAttribute("error", "Invalid manager ID or manager not found");
+                    req.setAttribute("error", "Invalid manager ID or manager not found");
                     resp.sendRedirect("users");
                     return;
                 }
             }
 
             if (role == Role.MANAGER && managerId != null) {
-                req.getSession().setAttribute("error", "Manager cannot have a manager");
+                req.setAttribute("error", "Manager cannot have a manager");
                 resp.sendRedirect("users");
+                return;
             }
 
             userService.registerUser(user);
-            req.getSession().setAttribute("user", user);
-            req.getSession().setAttribute("success", "User registered successfully");
+            req.setAttribute("success", "User registered successfully");
             resp.sendRedirect("users");
         }
     }

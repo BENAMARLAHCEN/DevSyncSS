@@ -44,9 +44,11 @@
                 </div>
                 <div class="form-group mt-3">
                     <label for="Manager">Manager</label>
-                    <select name="managerID" id="manager" class="form-control">
-                        <% for (User u : users.stream().filter((u)->u.getRole().equals("MANAGER")).collect(Collectors.toList())) { %>
-                            <option value="<%= u.getId() %>"><%= u.getFirstName() %> <%= u.getLastName() %></option>
+                    <select name="managerId" id="manager" class="form-control">
+                        <% List<User> Managers = users.stream().filter((u)->u.getRole().name().equalsIgnoreCase("MANAGER")).collect(Collectors.toList()); %>
+                        <option value="" selected>Select Manager</option>
+                        <% for (User u : Managers) { %>
+                            <option value="<%= u.getId() %>" ><%= u.getFirstName() %> <%= u.getLastName() %></option>
                         <% } %>
                     </select>
                 </div>
