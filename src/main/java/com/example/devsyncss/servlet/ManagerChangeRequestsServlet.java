@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet({"/manager-change-requests", "/my-change-requests", "/send-change-request", "/delete-request"})
+@WebServlet({"/manager-change-requests", "/my-change-requests", "/send-change-request", "/approve-request"})
 public class ManagerChangeRequestsServlet extends HttpServlet {
     private ITaskService taskService;
     private IUserService userService;
@@ -64,14 +64,14 @@ public class ManagerChangeRequestsServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String pathInfo = request.getPathInfo();
+        String pathURI = request.getRequestURI();
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {
             response.sendRedirect("login");
             return;
         }
-        if (pathInfo.contains("/send-change-request")) {
+        if (pathURI.contains("/send-change-request")) {
             if (user.getRole().name().equalsIgnoreCase("MANAGER")) {
                 response.sendRedirect("manager-change-requests");
                 return;
@@ -109,7 +109,15 @@ public class ManagerChangeRequestsServlet extends HttpServlet {
                 return;
             }
 
+            if (taskChangeRequestService.isTaskChangeRequestExists(task)) {
+                request.setAttribute("error", "Change request already exists for this task");
+                response.sendRedirect("tasks");
+                return;
+            }
+
             if (task != null) {
+                task.setLocked(true);
+                taskService.updateTask(task);
                 taskChangeRequestService.createTaskChangeRequest(task, user, changeDescription);
                 request.setAttribute("success", "Change request sent successfully");
                 response.sendRedirect("tasks");
@@ -120,12 +128,12 @@ public class ManagerChangeRequestsServlet extends HttpServlet {
             return;
         }
 
-        if (pathInfo.contains("/approve-request")) {
+        if (pathURI.contains("/approve-request")) {
             if (user.getRole().name().equalsIgnoreCase("USER")) {
-                response.sendRedirect("send-change-request");
+                response.sendRedirect("taskBoard");
                 return;
             }
-            Long ChangeRequestId = Long.parseLong(request.getParameter("ChangeRequestId"));
+            Long ChangeRequestId = Long.parseLong(request.getParameter("changeId"));
             Long newAssigneeId = Long.parseLong(request.getParameter("newAssigneeId"));
             TaskChange taskChange = taskChangeRequestService.getTaskChangeById(ChangeRequestId);
             if (taskChange != null) {
@@ -141,7 +149,7 @@ public class ManagerChangeRequestsServlet extends HttpServlet {
                     return;
                 }
 
-                if (task.getAssignedTo().getId().equals(newAssigneeId)) {
+                if (taskChange.getUser().getId() == newAssigneeId) {
                     request.setAttribute("error", "Task is already assigned to this user");
                     response.sendRedirect("manager-change-requests");
                     return;

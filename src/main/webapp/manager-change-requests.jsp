@@ -40,7 +40,7 @@
                         <td><%= taskChange.getChangeDescription() %></td>
                         <td><%= taskChange.getChangeDate() %></td>
                         <td>
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal" onclick="addMessageForExceptUserInModal('<%= taskChange.getUser().getFirstName() + taskChange.getUser().getLastName() %>')">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal" onclick="addMessageForExceptUserInModal('<%= taskChange.getUser().getFirstName() + taskChange.getUser().getLastName() %>',<%= taskChange.getId() %>)">
                                 Approve
                             </button>
 
@@ -50,8 +50,9 @@
                         }
                     %>
                     <script>
-                        function addMessageForExceptUserInModal(name) {
+                        function addMessageForExceptUserInModal(name, id) {
                             document.getElementById("ExceptUser").innerHTML = "Except User: " + name;
+                            document.getElementById("changeId").value = id;
                         }
                     </script>
                 </tbody>
@@ -68,11 +69,11 @@
                 <h5 class="modal-title" id="approveModalLabel">Approve Change Request</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="post">
+            <form method="post" action="<%= request.getContextPath() %>/approve-request">
             <div class="modal-body text-center">
                 <p>Assign the task to another user <p id="ExceptUser"></p></p>
 
-                <select class="form-select" aria-label="Default select example">
+                <select class="form-select" aria-label="Default select example" name="newAssigneeId">
                     <option selected>Select User</option>
                     <% List<User> Users = (List<User>) request.getAttribute("users");
                         for (User user : Users) {
@@ -80,10 +81,11 @@
                     <option value="<%= user.getId() %>"><%= user.getFirstName() %> <%= user.getLastName() %></option>
                     <% } %>
                 </select>
+                <input type="hidden" name="changeId" id="changeId">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-success">Assign</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success">Assign</button>
             </div>
             </form>
         </div>

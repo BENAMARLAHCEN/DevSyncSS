@@ -76,7 +76,7 @@ public class TaskServlet extends HttpServlet {
             return;
         }
         if (req.getRequestURI().contains("/tasks")) {
-            List<Task> tasks;
+            List<Task> tasks = List.of();
             List<User> users = List.of();
             if (user.getRole().name().equalsIgnoreCase("MANAGER")) {
                 tasks = taskService.getUserCreatedTasks(user);
@@ -84,8 +84,8 @@ public class TaskServlet extends HttpServlet {
 
             } else {
                 tasks = taskService.getAllTasks().stream()
-                        .filter(task -> task.getAssignedTo().getId().equals(user.getId()))
-                        .collect(Collectors.toList());
+                            .filter(task -> task.getAssignedTo() != null && task.getAssignedTo().getId().equals(user.getId()))
+                            .collect(Collectors.toList());
             }
             List<Tag> tags = tagService.getAllTags();
             req.setAttribute("tasks", tasks);

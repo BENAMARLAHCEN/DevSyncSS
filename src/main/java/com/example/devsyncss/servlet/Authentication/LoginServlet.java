@@ -2,6 +2,9 @@ package com.example.devsyncss.servlet.Authentication;
 
 import com.example.devsyncss.entities.User;
 import com.example.devsyncss.entities.enums.Role;
+import com.example.devsyncss.scheduler.ChangeTaskScheduler;
+import com.example.devsyncss.scheduler.TaskScheduler;
+import com.example.devsyncss.scheduler.TokenScheduler;
 import com.example.devsyncss.service.UserService;
 import com.example.devsyncss.service.interfc.IUserService;
 import jakarta.servlet.ServletException;
@@ -17,6 +20,9 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private IUserService userService;
+    private TokenScheduler tokenScheduler;
+    private TaskScheduler taskScheduler;
+    private ChangeTaskScheduler changeTaskScheduler;
 
     public void init() {
         userService = new UserService();
@@ -30,6 +36,12 @@ public class LoginServlet extends HttpServlet {
             user.setRole(Role.MANAGER);
             userService.registerUser(user);
             }
+        tokenScheduler = new TokenScheduler();
+        tokenScheduler.startTokenScheduler();
+        taskScheduler = new TaskScheduler();
+        taskScheduler.startTaskScheduler();
+        changeTaskScheduler = new ChangeTaskScheduler();
+        changeTaskScheduler.startChangeTaskScheduler();
     }
 
     @Override
