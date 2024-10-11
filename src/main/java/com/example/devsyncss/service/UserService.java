@@ -40,6 +40,17 @@ public class UserService implements IUserService {
         return userRepository.findAll();
     }
 
+    public List<User> getAllManagers() {
+        return userRepository.findAllUsersByRole(Role.MANAGER);
+    }
+
+    public List<User> getAllUsersByManagerId(Long managerId) {
+        if (managerId == null) {
+            throw new IllegalArgumentException("Manager ID cannot be null");
+        }
+        return userRepository.findAllUsersByManagerId(managerId);
+    }
+
     public User getUserByEmail(String email){
         if (email == null || email.isEmpty()) {
             throw new IllegalArgumentException("Email cannot be null or empty");
@@ -76,5 +87,16 @@ public class UserService implements IUserService {
             return false;
         }
         return true;
+    }
+
+    public List<User> getUserByRole(String user){
+        if (user == null || user.isEmpty()) {
+            throw new IllegalArgumentException("User cannot be null or empty");
+        }
+        return userRepository.findAllUsersByRole(Role.valueOf(user));
+    }
+
+    public Long getLatestUserId() {
+        return userRepository.findLatestUserId();
     }
 }

@@ -63,6 +63,7 @@ public class UserServlet extends HttpServlet {
             user.setRole(role);
 
             userService.addUser(user, managerId);
+
             resp.sendRedirect("user");
         } else if (req.getRequestURI().contains("/delete-user/")) {
             String[] uriParts = req.getRequestURI().split("/");

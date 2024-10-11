@@ -79,10 +79,8 @@ public class TaskServlet extends HttpServlet {
             List<Task> tasks;
             List<User> users = List.of();
             if (user.getRole().name().equalsIgnoreCase("MANAGER")) {
-                tasks = taskService.getAllTasks();
-                users = userService.getAllUsers().stream()
-                        .filter(u -> u.getRole().name().equalsIgnoreCase("USER"))
-                        .collect(Collectors.toList());
+                tasks = taskService.getUserCreatedTasks(user);
+                users = userService.getAllUsersByManagerId(user.getId());
 
             } else {
                 tasks = taskService.getAllTasks().stream()
