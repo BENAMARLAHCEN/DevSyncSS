@@ -16,4 +16,8 @@ public interface ITaskChangeRequestService {
     TaskChange getTaskChangeById(Long changeRequestId);
 
     void deleteTaskChange(Long id);
+
+    List<TaskChange> getAllTaskChanges();
+
+    boolean isTaskChangeRequestExists(Task task);
 }

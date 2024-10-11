@@ -45,5 +45,13 @@ public class TaskChangeRequestService implements ITaskChangeRequestService {
         taskChangeRepository.deleteTaskChange(id);
     }
 
+    public List<TaskChange> getAllTaskChanges() {
+        return taskChangeRepository.getAllTaskChanges();
+    }
+
+    public boolean isTaskChangeRequestExists(Task task) {
+        return taskChangeRepository.getAllTaskChanges().stream().anyMatch(taskChange -> taskChange.getTask().equals(task));
+    }
+
 
 }

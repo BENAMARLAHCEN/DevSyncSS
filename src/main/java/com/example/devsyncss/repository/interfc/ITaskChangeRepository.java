@@ -13,4 +13,6 @@ public interface ITaskChangeRepository {
     List<TaskChange> getAllManagerCreateTaskChanges(Long managerId);
 
     List<TaskChange> getUserChangeRequests(User user);
+
+    List<TaskChange> getAllTaskChanges();
 }

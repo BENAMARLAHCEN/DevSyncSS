@@ -6,6 +6,8 @@ import com.example.devsyncss.repository.TokenRepository;
 import com.example.devsyncss.repository.interfc.ITokenRepository;
 import com.example.devsyncss.service.interfc.ITokenService;
 
+import java.util.List;
+
 public class TokenService implements ITokenService {
 
     private final ITokenRepository tokenRepository;
@@ -27,5 +29,14 @@ public class TokenService implements ITokenService {
     @Override
     public Token getTokenByUserId(Long userId) {
         return tokenRepository.getToken(userId);
+    }
+
+    public List<Token> getAllTokens() {
+        return tokenRepository.getAllTokens();
+    }
+
+    @Override
+    public void updateToken(Token token) {
+        tokenRepository.updateToken(token);
     }
 }

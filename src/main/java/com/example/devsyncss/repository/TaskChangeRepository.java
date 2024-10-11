@@ -60,4 +60,10 @@ public class TaskChangeRepository implements ITaskChangeRepository {
                 .getResultList();
     }
 
+    @Override
+    public List<TaskChange> getAllTaskChanges() {
+        return em.createQuery("SELECT tc FROM TaskChange tc", TaskChange.class)
+                .getResultList();
+    }
+
 }
