@@ -11,29 +11,85 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
         .task-column {
             min-height: 600px;
             background-color: #f8f9fa;
             border-radius: 10px;
             padding: 15px;
         }
+
         .task-card {
             cursor: move;
             margin-bottom: 15px;
         }
+
         .task-card .card-body {
             padding: 10px;
         }
+
         .task-card .card-title {
             font-size: 1rem;
             margin-bottom: 0.5rem;
+            color: #343a40;
         }
+
         .task-card .card-text {
             font-size: 0.875rem;
+            color: #343a40;
         }
+
         .task-tag {
             font-size: 0.75rem;
             margin-right: 5px;
+            color: #fff;
+            background-color: #343a40;
+        }
+
+        .navbar {
+            z-index: 100;
+            background-color: #343a40;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+        }
+
+        .navbar-nav {
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .navbar-brand {
+            margin-right: auto;
+            color: #fff;
+        }
+
+        .profile-link {
+            margin-left: auto;
+            color: #fff;
+        }
+
+        .nav-link {
+            color: #fff;
+        }
+
+        .nav-link:hover {
+            color: #ffc107;
+        }
+
+        .btn-logout {
+            color: #fff;
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-logout:hover {
+            background-color: #c82333;
         }
     </style>
 </head>
@@ -58,7 +114,7 @@
                             <%
                                 for (Tag tag : task.getTags()) {
                             %>
-                            <span class="badge bg-secondary task-tag"><%= tag.getName() %></span>
+                            <span class="badge task-tag"><%= tag.getName() %></span>
                             <%
                                 }
                             %>
@@ -86,7 +142,7 @@
                             <%
                                 for (Tag tag : task.getTags()) {
                             %>
-                            <span class="badge bg-secondary task-tag"><%= tag.getName() %></span>
+                            <span class="badge task-tag"><%= tag.getName() %></span>
                             <%
                                 }
                             %>
@@ -114,7 +170,7 @@
                             <%
                                 for (Tag tag : task.getTags()) {
                             %>
-                            <span class="badge bg-secondary task-tag"><%= tag.getName() %></span>
+                            <span class="badge task-tag"><%= tag.getName() %></span>
                             <%
                                 }
                             %>

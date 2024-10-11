@@ -9,6 +9,58 @@
     <title>User Profile</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/profile.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            color: #343a40;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #23272b;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .modal-header {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .modal-footer .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .modal-footer .btn-primary:hover {
+            background-color: #23272b;
+        }
+    </style>
 </head>
 <body>
     <% List<User> users = (List<User>) request.getAttribute("users"); %>
@@ -76,15 +128,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% for (User user : users) { %>
+                    <% for (User u : users) { %>
                         <tr>
-                            <td><%= user.getId() %></td>
-                            <td><%= user.getUsername() %></td>
-                            <td><%= user.getEmail() %></td>
-                            <td><%= user.getRole() %></td>
+                            <td><%= u.getId() %></td>
+                            <td><%= u.getUsername() %></td>
+                            <td><%= u.getEmail() %></td>
+                            <td><%= u.getRole() %></td>
                             <td>
-                                <a href="users/<%= user.getId() %>" class="btn btn-primary">Edit</a>
-                                <form action="delete-user/<%= user.getId() %>" method="post" style="display: inline;">
+                                <a href="users/<%= u.getId() %>" class="btn btn-primary">Edit</a>
+                                <form action="delete-user/<%= u.getId() %>" method="post" style="display: inline;">
                                     <button type="submit" class="btn btn-danger">Delete</button>
                                 </form>
                             </td>
@@ -95,3 +147,5 @@
         </div>
     </div>
 </div>
+</body>
+</html>

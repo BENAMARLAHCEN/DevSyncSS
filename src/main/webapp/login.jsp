@@ -1,4 +1,3 @@
-<!-- Login Page (login.jsp) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,12 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-
-
   <link rel="stylesheet" href="assets/css/auth.css">
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
   <script src="assets/js/auth.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      color: #343a40;
+    }
+
+    .header {
+      background-color: #343a40;
+      color: #fff;
+    }
+
+    .navbar-light .navbar-brand {
+      color: #fff;
+    }
+
+    .navbar-light .navbar-brand:hover {
+      color: #ffc107;
+    }
+
+    .input-group-text {
+      background-color: #343a40;
+      color: #fff;
+      border: none;
+    }
+
+    .input-group-text .fa {
+      color: #ffc107;
+    }
+
+    .form-control {
+      border: 1px solid #343a40;
+    }
+
+    .btn-primary {
+      background-color: #343a40;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #23272b;
+    }
+  </style>
 </head>
 <body>
 
@@ -68,7 +106,6 @@
     </div>
     </div>
 </div>
-
 
 </body>
 </html>

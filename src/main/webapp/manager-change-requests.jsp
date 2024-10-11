@@ -12,6 +12,49 @@
     <title>DevSync Change Requests</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            color: #343a40;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #23272b;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .modal-header {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .modal-footer .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .modal-footer .btn-primary:hover {
+            background-color: #23272b;
+        }
+    </style>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -21,12 +64,12 @@
     <h1 class="text-center mb-4">DevSync Change List</h1>
     <div class="row">
         <div class="col-md-12 mb-4">
-            <table class="table table-bordered">
+            <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>Task Title</th>
                         <th>Change Description</th>
-                        <td>Date Requested</td>
+                        <th>Date Requested</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -43,7 +86,6 @@
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal" onclick="addMessageForExceptUserInModal('<%= taskChange.getUser().getFirstName() + taskChange.getUser().getLastName() %>',<%= taskChange.getId() %>)">
                                 Approve
                             </button>
-
                         </td>
                     </tr>
                     <%
@@ -76,9 +118,9 @@
                 <select class="form-select" aria-label="Default select example" name="newAssigneeId">
                     <option selected>Select User</option>
                     <% List<User> Users = (List<User>) request.getAttribute("users");
-                        for (User user : Users) {
+                        for (User u : Users) {
                     %>
-                    <option value="<%= user.getId() %>"><%= user.getFirstName() %> <%= user.getLastName() %></option>
+                    <option value="<%= u.getId() %>"><%= u.getFirstName() %> <%= u.getLastName() %></option>
                     <% } %>
                 </select>
                 <input type="hidden" name="changeId" id="changeId">

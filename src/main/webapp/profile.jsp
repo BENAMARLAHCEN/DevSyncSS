@@ -7,9 +7,56 @@
     <title>User Profile</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/profile.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #23272b;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .modal-header {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .modal-footer .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .modal-footer .btn-primary:hover {
+            background-color: #23272b;
+        }
+    </style>
 </head>
 <body>
-<% User user = (User) request.getAttribute("user"); %>
 <%@ include file="shared/_header.jsp" %>
 <div class="container" style="margin-top: 50px">
     <div class="main-body">
@@ -23,7 +70,6 @@
                                 <h4><%= user.getUsername() %></h4>
                                 <p class="text-secondary mb-1">Full Stack Developer</p>
                                 <p class="text-muted font-size-sm"></p>
-
                                 <button class="btn btn-danger mt-3" data-toggle="modal" data-target="#deleteAccountModal">Delete Account</button>
                             </div>
                         </div>
@@ -65,11 +111,9 @@
                                 <input type="text" class="form-control" value="<%= user.getEmail() %>" readonly>
                             </div>
                         </div>
-
                         <button class="btn btn-primary mt-3" data-toggle="modal" data-target="#editProfileModal">Edit Profile</button>
                     </div>
                 </div>
-
                 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -80,41 +124,29 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-
                                 <div class="modal-body">
-                                    <!-- First Name -->
                                     <div class="form-group">
                                         <label for="firstName">First Name:</label>
                                         <input type="text" class="form-control" id="firstName" name="firstName" value="<%= user.getFirstName() %>" required>
                                     </div>
-
-                                    <!-- Last Name -->
                                     <div class="form-group">
                                         <label for="lastName">Last Name:</label>
                                         <input type="text" class="form-control" id="lastName" name="lastName" value="<%= user.getLastName() %>" required>
                                     </div>
-
-                                    <!-- Email -->
                                     <div class="form-group">
                                         <label for="email">Email:</label>
-                                        <input type="email" class="form-control" id="email" name="email" value="<%= user.getEmail() %>" >
+                                        <input type="email" class="form-control" id="email" name="email" value="<%= user.getEmail() %>">
                                     </div>
-
-                                    <!-- Current Password -->
                                     <div class="form-group">
                                         <label for="currentPassword">Current Password:</label>
-                                        <input type="password" class="form-control" id="currentPassword" name="password" >
+                                        <input type="password" class="form-control" id="currentPassword" name="password">
                                     </div>
-
-                                    <!-- New Password -->
                                     <div class="form-group">
                                         <label for="newPassword">New Password:</label>
                                         <input type="password" class="form-control" id="newPassword" name="confirmPassword" required>
                                     </div>
-
                                     <input type="hidden" name="username" value="<%= user.getUsername() %>">
                                 </div>
-
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -123,7 +155,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
@@ -149,19 +180,17 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="profile/delete" method="post">
-                <input  type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_method" value="DELETE">
                 <div class="modal-header">
                     <h5 class="modal-title" id="deleteAccountModalLabel">Delete Account</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="password">Enter your password to confirm:</label>
@@ -177,7 +206,6 @@
         </div>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

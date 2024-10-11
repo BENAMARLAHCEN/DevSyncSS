@@ -3,7 +3,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.devsyncss.entities.Tag" %>
 <%@ page import="com.example.devsyncss.entities.Task" %>
-<%@ page import="java.util.Objects" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,12 +11,60 @@
     <title>Tasks</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/profile.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+
+
+        .form-group label {
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            color: #343a40;
+        }
+
+        .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #23272b;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .modal-header {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+        .modal-footer .btn-primary {
+            background-color: #343a40;
+            border: none;
+        }
+
+        .modal-footer .btn-primary:hover {
+            background-color: #23272b;
+        }
+    </style>
 </head>
 <body>
 <% List<Tag> tags = (List<Tag>) request.getAttribute("tags"); %>
 <% List<Task> tasks = (List<Task>) request.getAttribute("tasks"); %>
 <% List<User> users = (List<User>) request.getAttribute("users"); %>
-<% User user = (User) session.getAttribute("user"); %>
 
 <%@ include file="shared/_header.jsp" %>
     <div class="container">
