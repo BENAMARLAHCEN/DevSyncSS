@@ -2,12 +2,9 @@ package com.example.devsyncss.service;
 
 import com.example.devsyncss.entities.Task;
 import com.example.devsyncss.entities.Token;
-import com.example.devsyncss.entities.User;
 import com.example.devsyncss.entities.enums.TaskStatus;
 import com.example.devsyncss.repository.TaskRepository;
 import com.example.devsyncss.repository.TokenRepository;
-import com.example.devsyncss.repository.UserRepository;
-import com.example.devsyncss.repository.TagRepository;
 import jakarta.ejb.Schedule;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
@@ -16,13 +13,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Singleton
 @Startup
 public class SchedulerService {
 
-    private TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
 
-    private TokenRepository tokenRepository;
+    private final TokenRepository tokenRepository;
 
     public SchedulerService() {
         this.taskRepository = new TaskRepository();
@@ -48,7 +46,7 @@ public class SchedulerService {
     public void resetDailyTokens() {
         List<Token> allTokens = tokenRepository.getAllTokens();
         for (Token token : allTokens) {
-            token.setModificationTokens(2); // Reset to 2 tokens per day
+            token.setModificationTokens(2);
             tokenRepository.save(token);
         }
     }
@@ -57,7 +55,19 @@ public class SchedulerService {
     public void resetMonthlyTokens() {
         List<Token> allTokens = tokenRepository.getAllTokens();
         for (Token token : allTokens) {
-            token.setDeletionTokens(1); // Reset to 1 token per month
+            token.setDeletionTokens(1);
+            tokenRepository.save(token);
+        }
+    }
+
+    // Add a new method to reset evry second
+
+    @Schedule(hour = "*", minute = "*", second = "0", persistent = false)
+    public void resetSecondTokens() {
+        List<Token> allTokens = tokenRepository.getAllTokens();
+        for (Token token : allTokens) {
+            token.setDeletionTokens(10);
+            token.setLastResetDate(LocalDateTime.now());
             tokenRepository.save(token);
         }
     }

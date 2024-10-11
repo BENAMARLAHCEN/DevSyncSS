@@ -74,4 +74,5 @@ public class Token {
     public void setLastResetDate(LocalDateTime lastResetDate) {
         this.lastResetDate = lastResetDate;
     }
+
 }

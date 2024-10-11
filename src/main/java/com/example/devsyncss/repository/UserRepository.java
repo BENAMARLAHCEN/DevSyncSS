@@ -1,6 +1,7 @@
 package com.example.devsyncss.repository;
 
 import com.example.devsyncss.entities.User;
+import com.example.devsyncss.entities.enums.Role;
 import com.example.devsyncss.repository.interfc.IUserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -55,5 +56,21 @@ public class UserRepository implements IUserRepository {
             em.remove(user);
             em.getTransaction().commit();
         }
+    }
+
+    public List<User> findAllUsersByRole(Role role) {
+        return em.createQuery("SELECT u FROM User u WHERE u.role = :role", User.class)
+                .setParameter("role", role)
+                .getResultList();
+    }
+
+    public List<User> findAllUsersByManagerId(Long managerId) {
+        return em.createQuery("SELECT u FROM User u WHERE u.manager.id = :managerId", User.class)
+                .setParameter("managerId", managerId)
+                .getResultList();
+    }
+
+    public Long findLatestUserId() {
+        return em.createQuery("SELECT MAX(u.id) FROM User u", Long.class).getSingleResult();
     }
 }

@@ -12,6 +12,10 @@ public interface IUserService {
 
     List<User> getAllUsers();
 
+    List<User> getAllManagers();
+
+    List<User> getAllUsersByManagerId(Long managerId);
+
     User getUserByEmail(String email);
 
     User getUserById(Long managerId);
@@ -19,4 +23,8 @@ public interface IUserService {
     boolean deleteUser(User user);
 
     boolean updateUser(User user);
+
+    List<User> getUserByRole(String user);
+
+    Long getLatestUserId();
 }

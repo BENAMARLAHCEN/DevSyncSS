@@ -1,6 +1,7 @@
 package com.example.devsyncss.repository;
 
 import com.example.devsyncss.entities.TaskChange;
+import com.example.devsyncss.entities.User;
 import com.example.devsyncss.repository.interfc.ITaskChangeRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -47,8 +48,15 @@ public class TaskChangeRepository implements ITaskChangeRepository {
 
     @Override
     public List<TaskChange> getAllManagerCreateTaskChanges(Long managerId) {
-        return em.createQuery("SELECT tc FROM TaskChange tc WHERE tc.task.createdBy.id = :managerId AND tc.changeType = 'CREATE'", TaskChange.class)
+        return em.createQuery("SELECT tc FROM TaskChange tc WHERE tc.task.createdBy.id = :managerId", TaskChange.class)
                 .setParameter("managerId", managerId)
+                .getResultList();
+    }
+
+    @Override
+    public List<TaskChange> getUserChangeRequests(User user) {
+        return em.createQuery("SELECT tc FROM TaskChange tc WHERE tc.user.id = :userId AND tc.changeType = 'REQUEST'", TaskChange.class)
+                .setParameter("userId", user.getId())
                 .getResultList();
     }
 
