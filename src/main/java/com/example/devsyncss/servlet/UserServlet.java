@@ -1,8 +1,11 @@
 package com.example.devsyncss.servlet;
 
+import com.example.devsyncss.entities.Token;
 import com.example.devsyncss.entities.User;
 import com.example.devsyncss.entities.enums.Role;
+import com.example.devsyncss.service.TokenService;
 import com.example.devsyncss.service.UserService;
+import com.example.devsyncss.service.interfc.ITokenService;
 import com.example.devsyncss.service.interfc.IUserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,15 +15,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet({"/users", "/users/*", "/delete-user/*", "/add-user"})
 public class UserServlet extends HttpServlet {
 
     private IUserService userService;
+    private ITokenService tokenService;
 
     public void init() {
         userService = new UserService();
+        tokenService = new TokenService();
     }
 
     @Override
@@ -63,7 +69,12 @@ public class UserServlet extends HttpServlet {
             user.setRole(role);
 
             userService.addUser(user, managerId);
-
+            Token token = new Token();
+            token.setUser(userService.getUserByEmail(email));
+            token.setDeletionTokens(1);
+            token.setModificationTokens(2);
+            token.setLastResetDate(LocalDateTime.now());
+            tokenService.addToken(token);
             resp.sendRedirect("user");
         } else if (req.getRequestURI().contains("/delete-user/")) {
             String[] uriParts = req.getRequestURI().split("/");

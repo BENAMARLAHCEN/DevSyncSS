@@ -1,8 +1,11 @@
 package com.example.devsyncss.servlet.Authentication;
 
+import com.example.devsyncss.entities.Token;
 import com.example.devsyncss.entities.User;
 import com.example.devsyncss.entities.enums.Role;
+import com.example.devsyncss.service.TokenService;
 import com.example.devsyncss.service.UserService;
+import com.example.devsyncss.service.interfc.ITokenService;
 import com.example.devsyncss.service.interfc.IUserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,13 +16,16 @@ import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
     private IUserService userService;
+    private ITokenService tokenService;
 
     public void init() {
         userService = new UserService();
+        tokenService = new TokenService();
     }
 
     @Override
@@ -81,7 +87,12 @@ public class RegisterServlet extends HttpServlet {
         }
 
         if (userService.registerUser(user)) {
-            req.getSession().setAttribute("user", user);
+            Token token = new Token();
+            token.setUser(userService.getUserByEmail(email));
+            token.setDeletionTokens(1);
+            token.setModificationTokens(2);
+            token.setLastResetDate(LocalDateTime.now());
+            tokenService.addToken(token);
             req.getSession().setAttribute("success", "User registered successfully");
             resp.sendRedirect("login");
             return;
