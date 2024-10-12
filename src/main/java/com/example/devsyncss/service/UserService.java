@@ -7,6 +7,7 @@ import com.example.devsyncss.repository.interfc.IUserRepository;
 import com.example.devsyncss.service.interfc.IUserService;
 
 import java.util.List;
+import java.util.Map;
 
 public class UserService implements IUserService {
 
@@ -99,4 +100,5 @@ public class UserService implements IUserService {
     public Long getLatestUserId() {
         return userRepository.findLatestUserId();
     }
+
 }

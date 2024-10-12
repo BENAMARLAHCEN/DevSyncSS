@@ -1,4 +1,5 @@
 <%@ page import="com.example.devsyncss.entities.User" %>
+<%@ include file="_error.jsp"%>
 <style>
     .navbar {
         z-index: 100;
@@ -42,6 +43,7 @@
         background-color: #c82333;
     }
 </style>
+
 <%
     User user = (User) request.getSession().getAttribute("user");
     String path = request.getContextPath();

@@ -14,7 +14,7 @@ public class TokenScheduler {
     private final TokenService tokenService = new TokenService();
 
     public void startTokenScheduler() {
-        scheduler.scheduleAtFixedRate(this::resetTokens, 0, 1, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this::resetTokens, 0, 10, TimeUnit.MINUTES);
     }
 
     private void resetTokens() {

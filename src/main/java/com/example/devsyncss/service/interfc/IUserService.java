@@ -3,6 +3,7 @@ package com.example.devsyncss.service.interfc;
 import com.example.devsyncss.entities.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IUserService {
 
@@ -27,4 +28,5 @@ public interface IUserService {
     List<User> getUserByRole(String user);
 
     Long getLatestUserId();
+
 }

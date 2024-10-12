@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.util.Map;
 
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {

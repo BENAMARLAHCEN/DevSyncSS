@@ -4,6 +4,7 @@ import com.example.devsyncss.entities.User;
 import com.example.devsyncss.entities.enums.Role;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IUserRepository {
     void save(User user);

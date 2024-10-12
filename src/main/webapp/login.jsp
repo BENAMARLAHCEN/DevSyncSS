@@ -53,15 +53,8 @@
 </head>
 <body>
 
-<header class="header">
-  <nav class="navbar navbar-expand-lg navbar-light py-3">
-    <div class="container">
-      <a href="#" class="navbar-brand">
-        <img src="https://bootstrapious.com/i/snippets/sn-registeration/logo.svg" alt="logo" width="150">
-      </a>
-    </div>
-  </nav>
-</header>
+<%@include file="shared/_nav.jsp" %>
+
 
 <div class="container">
   <div class="row py-5 mt-4 align-items-center">

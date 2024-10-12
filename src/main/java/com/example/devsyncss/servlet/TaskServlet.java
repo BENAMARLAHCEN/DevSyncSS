@@ -136,8 +136,27 @@ public class TaskServlet extends HttpServlet {
             String dueDate = req.getParameter("dueDate");
             String assignedToStr = req.getParameter("assignedTo");
 
+            LocalDateTime dueDateTime = LocalDateTime.parse(dueDate);
+            if (title == null || title.isEmpty()) {
+                req.setAttribute("error", "Title field is required");
+                resp.sendRedirect("tasks");
+                return;
+            }
+
+            if (description == null || description.isEmpty()) {
+                req.setAttribute("error", "Description field is required");
+                resp.sendRedirect("tasks");
+                return;
+            }
+
+            if (dueDateTime == null || dueDateTime.isBefore(LocalDateTime.now()) || LocalDateTime.now().plusDays(3).isAfter(dueDateTime)) {
+                req.setAttribute("error", "Due date should be at least 3 days from now");
+                resp.sendRedirect("tasks");
+                return;
+            }
+
             if (assignedToStr == null || assignedToStr.isEmpty()) {
-                req.getSession().setAttribute("error", "Assigned to field is required");
+                req.setAttribute("error", "Assigned to field is required");
                 resp.sendRedirect("tasks");
                 return;
             }
@@ -151,7 +170,7 @@ public class TaskServlet extends HttpServlet {
             task.setCreatedBy(user);
             task.setCreationDate(LocalDateTime.now());
             task.setStatus(status);
-            task.setDueDate(LocalDateTime.parse(dueDate));
+            task.setDueDate(dueDateTime);
             task.setAssignedTo(userService.getUserById(assignedToId));
             Set<Tag> tags = tagIds.stream()
                     .map(tagId -> tagService.getTagById(tagId)).collect(Collectors.toSet());

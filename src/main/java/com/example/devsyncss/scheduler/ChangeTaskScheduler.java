@@ -18,7 +18,7 @@ public class ChangeTaskScheduler {
     private final TaskChangeRequestService taskChangeRequestService = new TaskChangeRequestService();
     private final TokenService tokenService = new TokenService();
     public void startChangeTaskScheduler() {
-        scheduler.scheduleAtFixedRate(this::checkAndUpdateChangeRequests, 0, 1, TimeUnit.MINUTES);
+        scheduler.scheduleAtFixedRate(this::checkAndUpdateChangeRequests, 0, 10, TimeUnit.MINUTES);
     }
 
     private void checkAndUpdateChangeRequests() {
