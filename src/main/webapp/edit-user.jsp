@@ -46,6 +46,7 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             <h2 class="text-center">Edit User</h2>
+            <%@ include file="shared/_alert.jsp" %>
             <form action="../users/<%= u.getId() %>" method="post">
                 <div class="form-group mt-3">
                     <label for="username">Username</label>
@@ -78,8 +79,8 @@
                     <label for="manager">Manager</label>
                     <select name="managerID" id="manager" class="form-control">
                         <% List<User> users = (List<User>) request.getAttribute("users"); %>
-                        <% for (User u : users) { %>
-                            <option value="<%= u.getId() %>" <%= u.getManager() != null && u.getManager().getId() == u.getId() ? "selected" : "" %>><%= u.getFirstName() %> <%= u.getLastName() %></option>
+                        <% for (User us : users) { %>
+                            <option value="<%= us.getId() %>" <%= u.getManager() != null && u.getManager().getId() == us.getId() ? "selected" : "" %>><%= us.getFirstName() %> <%= us.getLastName() %></option>
                         <% } %>
                     </select>
                 </div>

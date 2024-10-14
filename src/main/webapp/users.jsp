@@ -15,10 +15,6 @@
             color: #343a40;
         }
 
-        .container {
-            margin-top: 20px;
-        }
-
         .form-group label {
             font-weight: bold;
             color: #343a40;
@@ -68,50 +64,16 @@
 
 <div class="container mt-5">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h2 class="text-center">Add User</h2>
-            <form action="add-user" method="post">
-                <div class="form-group mt-3">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" id="username" class="form-control">
-                </div>
-                <div class="form-group mt-3">
-                    <label for="firstName">First Name</label>
-                    <input type="text" name="firstName" id="firstName" class="form-control">
-                </div>
-                <div class="form-group mt-3">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" name="lastName" id="lastName" class="form-control">
-                </div>
-                <div class="form-group mt-3">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" class="form-control">
-                </div>
-                <div class="form-group mt-3">
-                    <label for="role">Role</label>
-                    <select name="role" id="role" class="form-control">
-                        <option value="USER">User</option>
-                        <option value="MANAGER">MANAGER</option>
-                    </select>
-                </div>
-                <div class="form-group mt-3">
-                    <label for="Manager">Manager</label>
-                    <select name="managerId" id="manager" class="form-control">
-                        <% List<User> Managers = users.stream().filter((u)->u.getRole().name().equalsIgnoreCase("MANAGER")).collect(Collectors.toList()); %>
-                        <option value="" selected>Select Manager</option>
-                        <% for (User u : Managers) { %>
-                            <option value="<%= u.getId() %>" ><%= u.getFirstName() %> <%= u.getLastName() %></option>
-                        <% } %>
-                    </select>
-                </div>
-                <div class="form-group mt-3">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" id="password" class="form-control">
-                </div>
-                <div class="form-group mt-3">
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
+        <div class="col-md-12">
+            <h1>Users</h1>
+        </div>
+        <%@ include file="shared/_alert.jsp" %>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addUserModal">
+                Add User
+            </button>
         </div>
     </div>
     <div class="row">
@@ -147,5 +109,67 @@
         </div>
     </div>
 </div>
+
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="add-user" method="post">
+                    <div class="form-group mt-3">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" class="form-control">
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="firstName">First Name</label>
+                        <input type="text" name="firstName" id="firstName" class="form-control">
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" name="lastName" id="lastName" class="form-control">
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control">
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="role">Role</label>
+                        <select name="role" id="role" class="form-control">
+                            <option value="USER">User</option>
+                            <option value="MANAGER">Manager</option>
+                        </select>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="manager">Manager</label>
+                        <select name="managerId" id="manager" class="form-control">
+                            <% List<User> Managers = users.stream().filter((u)->u.getRole().name().equalsIgnoreCase("MANAGER")).collect(Collectors.toList()); %>
+                            <option value="" selected>Select Manager</option>
+                            <% for (User u : Managers) { %>
+                                <option value="<%= u.getId() %>"><%= u.getFirstName() %> <%= u.getLastName() %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control">
+                    </div>
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

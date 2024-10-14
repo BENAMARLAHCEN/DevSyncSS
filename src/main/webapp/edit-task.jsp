@@ -45,6 +45,7 @@
 <% Task task = (Task) request.getAttribute("task"); %>
 <%@ include file="shared/_header.jsp" %>
     <div class="container">
+        <%@ include file="shared/_alert.jsp" %>
         <div class="row">
             <div class="col-md-12">
                 <h1>Edit Task</h1>

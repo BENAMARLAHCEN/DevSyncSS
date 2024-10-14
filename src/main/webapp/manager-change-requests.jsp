@@ -62,6 +62,7 @@
 <%@ include file="shared/_header.jsp" %>
 <div class="container-fluid mt-4">
     <h1 class="text-center mb-4">DevSync Change List</h1>
+    <%@ include file="shared/_alert.jsp" %>
     <div class="row">
         <div class="col-md-12 mb-4">
             <table class="table table-bordered table-striped">
@@ -83,9 +84,16 @@
                         <td><%= taskChange.getChangeDescription() %></td>
                         <td><%= taskChange.getChangeDate() %></td>
                         <td>
+                            <% if (taskChange.getChangeType().name().equalsIgnoreCase("ASSIGNMENT_CHANGE")) { %>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal" onclick="addMessageForExceptUserInModal('<%= taskChange.getUser().getFirstName() + taskChange.getUser().getLastName() %>',<%= taskChange.getId() %>)">
                                 Approve
                             </button>
+                            <% } else if (taskChange.getChangeType().name().equalsIgnoreCase("DELETION")) { %>
+                            <form method="post" action="<%= request.getContextPath() %>/delete-request">
+                                <input type="hidden" name="changeId" value="<%= taskChange.getId() %>">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <% } %>
                         </td>
                     </tr>
                     <%

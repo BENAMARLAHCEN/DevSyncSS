@@ -1,5 +1,4 @@
 <%@ page import="com.example.devsyncss.entities.User" %>
-<%@ include file="_error.jsp"%>
 <style>
     .navbar {
         z-index: 100;
