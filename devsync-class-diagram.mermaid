@@ -1,0 +1,84 @@
+classDiagram
+    class User {
+        -Long id
+        -String username
+        -String password
+        -String firstName
+        -String lastName
+        -String email
+        -Role role
+        +getters()
+        +setters()
+    }
+
+    class Task {
+        -Long id
+        -String title
+        -String description
+        -LocalDateTime creationDate
+        -LocalDateTime dueDate
+        -TaskStatus status
+        -boolean isLocked
+        +getters()
+        +setters()
+    }
+
+    class Tag {
+        -Long id
+        -String name
+        +getters()
+        +setters()
+    }
+
+    class Token {
+        -Long id
+        -int modificationTokens
+        -int deletionTokens
+        -LocalDateTime lastResetDate
+        +getters()
+        +setters()
+    }
+
+    class TaskChange {
+        -Long id
+        -LocalDateTime changeDate
+        -ChangeType changeType
+        -String changeDescription
+        +getters()
+        +setters()
+    }
+
+    class Role {
+        <<enumeration>>
+        EMPLOYEE
+        MANAGER
+    }
+
+    class TaskStatus {
+        <<enumeration>>
+        PENDING
+        IN_PROGRESS
+        COMPLETED
+    }
+
+    class ChangeType {
+        <<enumeration>>
+        MODIFICATION
+        DELETION
+    }
+
+    User "1" -- "0..*" Task : assigns
+    User "1" -- "0..*" Task : creates
+    User "1" -- "0..*" Token : has
+    User "1" -- "0..*" TaskChange : requests
+    User "0..1" -- "0..*" User : manages
+
+    Task "0..*" -- "2..*" Tag : has
+    Task "1" -- "0..*" TaskChange : undergoes
+
+    TaskChange "0..*" -- "1" Task : affects
+    TaskChange "0..*" -- "1" User : requested by
+
+    User -- Role : has
+    Task -- TaskStatus : has
+    TaskChange -- ChangeType : has
