@@ -19,7 +19,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,6 +46,8 @@ public class TaskServlet extends HttpServlet {
             resp.sendRedirect("login");
             return;
         }
+
+
         if (req.getRequestURI().contains("/tasks/")) {
             String[] uriParts = req.getRequestURI().split("/");
             Long taskId = Long.parseLong(uriParts[uriParts.length - 1]);
@@ -69,14 +73,16 @@ public class TaskServlet extends HttpServlet {
             Task task = taskService.getTaskById(taskId);
             if (task == null || (user != null && !task.getCreatedBy().getId().equals(user.getId()))) {
                 req.getSession().setAttribute("error", "Task not found or you are not authorized to delete this task");
-                resp.sendRedirect("tasks");
+                resp.sendRedirect("../tasks");
                 return;
             }
             taskService.deleteTask(taskId);
             req.getSession().setAttribute("success", "Task deleted successfully");
-            resp.sendRedirect("tasks");
+            resp.sendRedirect("../tasks");
             return;
         }
+        String[] tagIds = req.getParameterValues("tags[]");
+        String period = req.getParameter("dateRange");
         if (req.getRequestURI().contains("/tasks")) {
             List<Task> tasks = List.of();
             List<User> users = List.of();
@@ -88,6 +94,24 @@ public class TaskServlet extends HttpServlet {
                 tasks = taskService.getAllTasks().stream()
                             .filter(task -> task.getAssignedTo() != null && task.getAssignedTo().getId().equals(user.getId()))
                             .collect(Collectors.toList());
+            }
+            if (tagIds != null && tagIds.length > 0) {
+                List<Long> tagIdsList = Arrays.stream(tagIds)
+                        .map(Long::parseLong)
+                        .collect(Collectors.toList());
+                tasks = tasks.stream()
+                        .filter(task -> task.getTags().stream()
+                                .anyMatch(tag -> tagIdsList.contains(tag.getId())))
+                        .collect(Collectors.toList());
+            }
+
+            if (period != null && !period.isEmpty()) {
+                String[] dates = period.split(" - ");
+                LocalDate startDate = LocalDate.parse(dates[0]);
+                LocalDate endDate = LocalDate.parse(dates[1]);
+                tasks = tasks.stream()
+                        .filter(task -> !task.getDueDate().toLocalDate().isBefore(startDate) && !task.getDueDate().toLocalDate().isAfter(endDate))
+                        .collect(Collectors.toList());
             }
             List<Tag> tags = tagService.getAllTags();
             req.setAttribute("tasks", tasks);

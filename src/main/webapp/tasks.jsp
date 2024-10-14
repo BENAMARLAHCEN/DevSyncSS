@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasks</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="assets/css/profile.css">
     <style>
         body {
@@ -58,6 +60,14 @@
         .modal-footer .btn-primary:hover {
             background-color: #23272b;
         }
+
+        .select2-container--default .select2-selection--multiple {
+            border: 1px solid #ced4da;
+        }
+
+        .daterangepicker {
+            color: #343a40;
+        }
     </style>
 </head>
 <body>
@@ -71,6 +81,27 @@
             <div class="col-md-12">
                 <%@ include file="shared/_alert.jsp" %>
                 <h1>Tasks</h1>
+
+                <form method="get" action="<%= request.getContextPath() %>/tasks">
+                    <div class="form-row">
+                        <div class="form-group col-md-5">
+                            <label for="filterTag">Filter by Tags</label>
+                            <select id="filterTag" name="tags[]" class="form-control" multiple>
+                                <% for (Tag tag : tags) { %>
+                                <option value="<%= tag.getId() %>"><%= tag.getName() %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <label for="dateRange">Date Range</label>
+                            <input type="text" id="dateRange" name="dateRange" class="form-control">
+                        </div>
+                        <div class="form-group col-md-2 " style="margin-top: 30px;">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                        </div>
+                    </div>
+                </form>
+
                 <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createTaskModal">
                     Create Task
                 </button>
@@ -225,8 +256,26 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#filterTag').select2({
+                placeholder: "Select tags",
+                allowClear: true
+            });
+
+            $('#dateRange').daterangepicker({
+                opens: 'left',
+                locale: {
+                    format: 'YYYY-MM-DD'
+                }
+            });
+        });
+    </script>
 </body>
 </html>
