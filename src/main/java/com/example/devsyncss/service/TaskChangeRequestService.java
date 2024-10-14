@@ -53,5 +53,15 @@ public class TaskChangeRequestService implements ITaskChangeRequestService {
         return taskChangeRepository.getAllTaskChanges().stream().anyMatch(taskChange -> taskChange.getTask().equals(task));
     }
 
+    public void createTaskDeleteRequest(Task task, User user) {
+        TaskChange taskChange = new TaskChange();
+        taskChange.setTask(task);
+        taskChange.setUser(user);
+        taskChange.setChangeDescription("Task deletion request");
+        taskChange.setChangeDate(LocalDateTime.now());
+        taskChange.setChangeType(ChangeType.DELETION);
+        taskChangeRepository.createTaskChange(taskChange);
+    }
+
 
 }

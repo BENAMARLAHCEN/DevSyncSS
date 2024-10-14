@@ -61,12 +61,13 @@ public class LoginServlet extends HttpServlet {
 
         User user = userService.getUserByEmail(email);
         if (user == null || !BCrypt.checkpw(password, user.getPassword())) {
-            req.setAttribute("error", "Invalid email or password");
+            req.getSession().setAttribute("error", "Invalid email or password");
             req.getRequestDispatcher("/login.jsp").forward(req, resp);
             return;
         }
 
         HttpSession session = req.getSession();
+        req.getSession().setAttribute("success", "Login successful");
         session.setAttribute("user", user);
         resp.sendRedirect("profile");
     }

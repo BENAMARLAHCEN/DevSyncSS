@@ -20,7 +20,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,6 +49,7 @@ public class TaskServlet extends HttpServlet {
             Long taskId = Long.parseLong(uriParts[uriParts.length - 1]);
             Task task = taskService.getTaskById(taskId);
             if (task == null || (user != null && !task.getCreatedBy().getId().equals(user.getId()))) {
+                req.getSession().setAttribute("error", "Task not found or you are not authorized to view this task");
                 resp.sendRedirect("tasks");
                 return;
             }
@@ -68,10 +68,12 @@ public class TaskServlet extends HttpServlet {
             Long taskId = Long.parseLong(uriParts[uriParts.length - 1]);
             Task task = taskService.getTaskById(taskId);
             if (task == null || (user != null && !task.getCreatedBy().getId().equals(user.getId()))) {
+                req.getSession().setAttribute("error", "Task not found or you are not authorized to delete this task");
                 resp.sendRedirect("tasks");
                 return;
             }
             taskService.deleteTask(taskId);
+            req.getSession().setAttribute("success", "Task deleted successfully");
             resp.sendRedirect("tasks");
             return;
         }
@@ -118,6 +120,31 @@ public class TaskServlet extends HttpServlet {
             List<Long> tagIds = Stream.of(req.getParameterValues("tags[]"))
                     .map(Long::parseLong)
                     .collect(Collectors.toList());
+
+            if (title == null || title.isEmpty() || description == null || description.isEmpty() || dueDate == null || dueDate.isEmpty()) {
+                req.getSession().setAttribute("error", "All fields are required");
+                resp.sendRedirect("../tasks/" + taskId);
+                return;
+            }
+
+            if (LocalDateTime.parse(dueDate).isBefore(LocalDateTime.now())) {
+                req.getSession().setAttribute("error", "Due date should be in the future");
+                resp.sendRedirect("../tasks/" + taskId);
+                return;
+            }
+
+            if (LocalDateTime.parse(dueDate).isBefore(LocalDateTime.now().plusDays(3))) {
+                req.getSession().setAttribute("error", "Due date should be at least 3 days from now");
+                resp.sendRedirect("../tasks/" + taskId);
+                return;
+            }
+
+            if (tagIds.isEmpty() || tagIds.size() < 2 ) {
+                req.getSession().setAttribute("error", "At least 2 tags are required");
+                resp.sendRedirect("../tasks/" + taskId);
+                return;
+            }
+
             task.setTitle(title);
             task.setDescription(description);
             task.setDueDate(LocalDateTime.parse(dueDate));
@@ -138,25 +165,25 @@ public class TaskServlet extends HttpServlet {
 
             LocalDateTime dueDateTime = LocalDateTime.parse(dueDate);
             if (title == null || title.isEmpty()) {
-                req.setAttribute("error", "Title field is required");
+                req.getSession().setAttribute("error", "Title field is required");
                 resp.sendRedirect("tasks");
                 return;
             }
 
             if (description == null || description.isEmpty()) {
-                req.setAttribute("error", "Description field is required");
+                req.getSession().setAttribute("error", "Description field is required");
                 resp.sendRedirect("tasks");
                 return;
             }
 
             if (dueDateTime == null || dueDateTime.isBefore(LocalDateTime.now()) || LocalDateTime.now().plusDays(3).isAfter(dueDateTime)) {
-                req.setAttribute("error", "Due date should be at least 3 days from now");
+                req.getSession().setAttribute("error", "Due date should be at least 3 days from now");
                 resp.sendRedirect("tasks");
                 return;
             }
 
             if (assignedToStr == null || assignedToStr.isEmpty()) {
-                req.setAttribute("error", "Assigned to field is required");
+                req.getSession().setAttribute("error", "Assigned to field is required");
                 resp.sendRedirect("tasks");
                 return;
             }

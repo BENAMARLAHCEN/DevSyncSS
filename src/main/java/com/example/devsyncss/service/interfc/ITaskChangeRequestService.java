@@ -20,4 +20,6 @@ public interface ITaskChangeRequestService {
     List<TaskChange> getAllTaskChanges();
 
     boolean isTaskChangeRequestExists(Task task);
+
+    void createTaskDeleteRequest(Task task, User user);
 }

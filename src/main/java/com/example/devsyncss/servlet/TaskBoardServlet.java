@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet({"/taskBoard", "/update-status"})
@@ -43,6 +44,11 @@ public class TaskBoardServlet extends HttpServlet {
         String newStatus = request.getParameter("newStatus");
         User user = (User) request.getSession().getAttribute("user");
         Task task = taskService.getTaskById(taskId);
+        if (newStatus.equalsIgnoreCase(TaskStatus.CANCELLED.name()) && task.getDueDate().isAfter(LocalDateTime.now())){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"success\": false, \"error\": \"Cannot cancel task that is not overdue\"}");
+            return;
+        }
         if (task != null && task.getCreatedBy().getId().equals(user.getId())) {
             task.setStatus(TaskStatus.valueOf(newStatus.toUpperCase()));
             taskService.updateTask(task);

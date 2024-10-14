@@ -43,12 +43,12 @@ public class ProfileServlet extends HttpServlet {
             String password = req.getParameter("password");
             String confirmPassword = req.getParameter("confirmPassword");
             if (firstName == null || firstName.isEmpty() || lastName == null || lastName.isEmpty() || email == null || email.isEmpty()) {
-                req.setAttribute("error", "All fields are required");
+                req.getSession().setAttribute("error", "All fields are required");
                 req.getRequestDispatcher("/profile.jsp").forward(req, resp);
                 return;
             }
             if (password != null && !password.isEmpty() && !password.equals(confirmPassword)) {
-                req.setAttribute("error", "Passwords do not match");
+                req.getSession().setAttribute("error", "Passwords do not match");
                 req.getRequestDispatcher("/profile.jsp").forward(req, resp);
                 return;
             }
@@ -60,11 +60,11 @@ public class ProfileServlet extends HttpServlet {
             }
             boolean isUpdate = userService.updateUser(user);
             if (!isUpdate) {
-                req.setAttribute("error", "An error occurred. Please try again");
+                req.getSession().setAttribute("error", "An error occurred. Please try again");
                 req.getRequestDispatcher("/profile.jsp").forward(req, resp);
                 return;
             }
-            req.setAttribute("success", "Profile updated successfully");
+            req.getSession().setAttribute("success", "Profile updated successfully");
             session.setAttribute("user", user);
             resp.sendRedirect("profile");
             return;

@@ -29,12 +29,12 @@ public class DeleteProfileServlet extends HttpServlet {
             User user = (User) session.getAttribute("user");
             String password = req.getParameter("password");
             if (password == null || password.isEmpty()) {
-                req.setAttribute("error", "Password is required");
+                req.getSession().setAttribute("error", "Password is required");
                 req.getRequestDispatcher("/profile.jsp").forward(req, resp);
                 return;
             }
             if (!BCrypt.checkpw(password, user.getPassword())) {
-                req.setAttribute("error", "Invalid password");
+                req.getSession().setAttribute("error", "Invalid password");
                 req.getRequestDispatcher("/profile.jsp").forward(req, resp);
                 return;
             }
@@ -44,9 +44,7 @@ public class DeleteProfileServlet extends HttpServlet {
                 resp.sendRedirect("login");
                 return;
             }
-            req.setAttribute("er" +
-                    "" +
-                    "ror", "An error occurred. Please try again");
+            req.getSession().setAttribute("error", "An error occurred. Please try again");
             req.getRequestDispatcher("/profile.jsp").forward(req, resp);
             return;
         }

@@ -50,17 +50,17 @@ public class RegisterServlet extends HttpServlet {
         Long managerId = managerIdStr != null && !managerIdStr.isEmpty() ? Long.parseLong(managerIdStr) : null;
 
         if (username == null || username.isEmpty() || password == null || password.isEmpty() || firstName == null || firstName.isEmpty() || lastName == null || lastName.isEmpty() || email == null || email.isEmpty() || role == null) {
-            req.setAttribute("error", "All fields are required");
+            req.getSession().setAttribute("error", "All fields are required");
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
         }
 
         if (role == Role.USER && managerId == null) {
-            req.setAttribute("error", "Manager ID is required for user role");
+            req.getSession().setAttribute("error", "Manager ID is required for user role");
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
         }
 
         if (userService.getUserByEmail(email) != null) {
-            req.setAttribute("error", "User with this email already exists");
+            req.getSession().setAttribute("error", "User with this email already exists");
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
         }
 
@@ -76,13 +76,13 @@ public class RegisterServlet extends HttpServlet {
             try {
                 user.setManager(userService.getUserById(managerId));
             } catch (IllegalArgumentException e) {
-                req.setAttribute("error", "Invalid manager ID or manager not found");
+                req.getSession().setAttribute("error", "Invalid manager ID or manager not found");
                 req.getRequestDispatcher("/register.jsp").forward(req, resp);
             }
         }
 
         if (role == Role.MANAGER && managerId != null) {
-            req.setAttribute("error", "Manager cannot have a manager");
+            req.getSession().setAttribute("error", "Manager cannot have a manager");
             req.getRequestDispatcher("/register.jsp").forward(req, resp);
         }
 
@@ -97,7 +97,7 @@ public class RegisterServlet extends HttpServlet {
             resp.sendRedirect("login");
             return;
         }
-        req.setAttribute("error", "Failed to register user");
+        req.getSession().setAttribute("error", "Failed to register user");
         resp.sendRedirect("register");
     }
 
