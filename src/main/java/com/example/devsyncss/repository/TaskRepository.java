@@ -25,7 +25,12 @@ public class TaskRepository implements ITaskRepository {
     }
 
     public List<Task> getAllTasks() {
-        return em.createQuery("SELECT t FROM Task t", Task.class).getResultList();
+       // return em.createQuery("SELECT t FROM Task t", Task.class).getResultList();
+        List<Task> taskList =em.createQuery("SELECT t FROM Task t", Task.class).getResultList();
+        taskList.forEach(task -> {
+            em.refresh(task);
+        });
+        return taskList;
     }
 
     public List<Task> findOverdueTasks() {
@@ -38,11 +43,7 @@ public class TaskRepository implements ITaskRepository {
                 .getResultList();
     }
 
-    public List<Object[]> countTasksByStatusForUser(com.example.devsyncss.entities.User user) {
-        return em.createQuery("SELECT t.status, COUNT(t) FROM Task t WHERE t.user = :user GROUP BY t.status", Object[].class)
-                .setParameter("user", user)
-                .getResultList();
-    }
+
 
     public List<Task> searchTasks(String searchTerm) {
         return em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :searchTerm OR t.description LIKE :searchTerm", Task.class)
@@ -79,6 +80,7 @@ public class TaskRepository implements ITaskRepository {
         em.merge(task);
         em.getTransaction().commit();
     }
+
 
     public void deleteTask(Long id) {
         Task task = em.find(Task.class, id);

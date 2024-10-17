@@ -17,8 +17,6 @@ public interface ITaskService {
 
     List<Task> getUpcomingTasks(int days);
 
-    Map<TaskStatus, Long> getTaskStatusCountForUser(User user);
-
     List<Task> searchTasks(String searchTerm);
 
     Double getUserProductivityRate(User user, LocalDateTime startDate, LocalDateTime endDate);

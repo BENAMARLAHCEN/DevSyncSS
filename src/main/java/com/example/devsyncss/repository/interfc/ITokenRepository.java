@@ -14,4 +14,6 @@ public interface ITokenRepository {
     Token getUserTokens(User user);
     List<Token> getAllTokens();
     void save(Token token);
+
+    Token getTokenByUserId(Long userId);
 }

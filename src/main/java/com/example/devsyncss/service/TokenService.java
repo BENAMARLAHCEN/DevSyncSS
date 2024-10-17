@@ -28,7 +28,7 @@ public class TokenService implements ITokenService {
 
     @Override
     public Token getTokenByUserId(Long userId) {
-        return tokenRepository.getToken(userId);
+        return tokenRepository.getTokenByUserId(userId);
     }
 
     public List<Token> getAllTokens() {

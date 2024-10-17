@@ -65,4 +65,10 @@ public class TokenRepository implements ITokenRepository {
         em.persist(token);
         em.getTransaction().commit();
     }
+
+    public Token getTokenByUserId(Long userId) {
+        return em.createQuery("SELECT t FROM Token t WHERE t.user.id = :userId", Token.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
 }

@@ -11,8 +11,6 @@ public interface ITaskRepository {
 
     List<Task> findTasksDueSoon(LocalDateTime endDate);
 
-    List<Object[]> countTasksByStatusForUser(User user);
-
     List<Task> searchTasks(String searchTerm);
 
     Double getTaskCompletionRate(User user, LocalDateTime startDate, LocalDateTime endDate);

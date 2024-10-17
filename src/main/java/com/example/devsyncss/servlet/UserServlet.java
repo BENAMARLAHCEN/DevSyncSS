@@ -31,6 +31,11 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User u = (User) req.getSession().getAttribute("user");
+        if (u == null) {
+            resp.sendRedirect("login");
+            return;
+        }
         if (req.getRequestURI().contains("/users/")) {
             String[] uriParts = req.getRequestURI().split("/");
             Long userId = Long.parseLong(uriParts[uriParts.length - 1]);
@@ -55,6 +60,12 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User u = (User) req.getSession().getAttribute("user");
+        if (u == null) {
+            resp.sendRedirect("login");
+            return;
+        }
+
         if (req.getRequestURI().contains("/users")) {
             String username = req.getParameter("username");
             String password = req.getParameter("password");

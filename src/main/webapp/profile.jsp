@@ -61,14 +61,6 @@
 <%@ include file="shared/_header.jsp" %>
 <div class="container" style="margin-top: 50px">
     <div class="main-body">
-        <!-- Breadcrumb -->
-        <nav aria-label="breadcrumb" class="main-breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb item"><a href="/">Home</a></li>
-                <li class="breadcrumb item active" aria-current="page">User Profile</li>
-            </ol>
-        </nav>
-        <!-- /Breadcrumb -->
         <%@ include file="shared/_alert.jsp" %>
         <div class="row">
             <div class="col-lg-4">

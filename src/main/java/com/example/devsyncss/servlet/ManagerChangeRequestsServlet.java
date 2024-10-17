@@ -90,13 +90,14 @@ public class ManagerChangeRequestsServlet extends HttpServlet {
                 response.sendRedirect("tasks");
                 return;
             }
-            if (task.getStatus().name().equalsIgnoreCase(TaskStatus.COMPLETED.name())) {
+
+            if (task.getStatus().equals(TaskStatus.COMPLETED)) {
                 request.getSession().setAttribute("error", "Task is already completed");
                 response.sendRedirect("tasks");
                 return;
             }
 
-            if (task.getStatus().name().equalsIgnoreCase(TaskStatus.CANCELLED.name())) {
+            if (task.getStatus().equals(TaskStatus.CANCELLED)) {
                 request.getSession().setAttribute("error", "Task is already cancelled");
                 response.sendRedirect("tasks");
                 return;
@@ -268,8 +269,8 @@ public class ManagerChangeRequestsServlet extends HttpServlet {
             if (taskChange != null) {
                 Task task = taskChange.getTask();
                 if (task.getCreatedBy().getId().equals(user.getId())) {
-                    taskService.deleteTask(task.getId());
                     taskChangeRequestService.deleteTaskChange(taskChange.getId());
+                    taskService.deleteTask(task.getId());
                     request.getSession().setAttribute("success", "Request deleted successfully");
                     response.sendRedirect("manager-change-requests");
                 } else {

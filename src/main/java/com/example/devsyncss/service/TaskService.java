@@ -24,6 +24,11 @@ public class TaskService implements ITaskService {
         this.tagRepository = new TagRepository();
     }
 
+    public TaskService(ITaskRepository taskRepository, ITagRepository tagRepository) {
+        this.taskRepository = taskRepository;
+        this.tagRepository = tagRepository;
+    }
+
     public Task createTask(Task task) {
         return taskRepository.createTask(task);
     }
@@ -41,14 +46,7 @@ public class TaskService implements ITaskService {
         return taskRepository.findTasksDueSoon(endDate);
     }
 
-    public Map<TaskStatus, Long> getTaskStatusCountForUser(User user) {
-        List<Object[]> result = taskRepository.countTasksByStatusForUser(user);
-        return result.stream()
-                .collect(Collectors.toMap(
-                        row -> (TaskStatus) row[0],
-                        row -> (Long) row[1]
-                ));
-    }
+
 
     public List<Task> searchTasks(String searchTerm) {
         return taskRepository.searchTasks(searchTerm);
