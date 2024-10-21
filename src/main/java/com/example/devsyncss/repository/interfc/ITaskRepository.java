@@ -9,8 +9,6 @@ import java.util.List;
 public interface ITaskRepository {
     List<Task> findOverdueTasks();
 
-    List<Task> findTasksDueSoon(LocalDateTime endDate);
-
     List<Task> searchTasks(String searchTerm);
 
     Double getTaskCompletionRate(User user, LocalDateTime startDate, LocalDateTime endDate);
@@ -28,4 +26,6 @@ public interface ITaskRepository {
     void updateTask(Task task);
 
     List<Task> getUserCreatedTasks(User user);
+
+    List<Task> getUserTasks(User user);
 }

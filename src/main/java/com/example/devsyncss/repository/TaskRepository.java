@@ -37,14 +37,6 @@ public class TaskRepository implements ITaskRepository {
         return em.createQuery("SELECT t FROM Task t WHERE t.dueDate < CURRENT_DATE", Task.class).getResultList();
     }
 
-    public List<Task> findTasksDueSoon(java.time.LocalDateTime endDate) {
-        return em.createQuery("SELECT t FROM Task t WHERE t.dueDate BETWEEN CURRENT_DATE AND :endDate", Task.class)
-                .setParameter("endDate", endDate)
-                .getResultList();
-    }
-
-
-
     public List<Task> searchTasks(String searchTerm) {
         return em.createQuery("SELECT t FROM Task t WHERE t.title LIKE :searchTerm OR t.description LIKE :searchTerm", Task.class)
                 .setParameter("searchTerm", "%" + searchTerm + "%")
@@ -93,6 +85,12 @@ public class TaskRepository implements ITaskRepository {
 
     public List<Task> getUserCreatedTasks(User user) {
         return em.createQuery("SELECT t FROM Task t WHERE t.createdBy = :user", Task.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
+
+    public List<Task> getUserTasks(User user) {
+        return em.createQuery("SELECT t FROM Task t WHERE t.assignedTo = :user OR t.createdBy = :user", Task.class)
                 .setParameter("user", user)
                 .getResultList();
     }

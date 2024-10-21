@@ -41,13 +41,6 @@ public class TaskService implements ITaskService {
         return taskRepository.findOverdueTasks();
     }
 
-    public List<Task> getUpcomingTasks(int days) {
-        LocalDateTime endDate = LocalDateTime.now().plusDays(days);
-        return taskRepository.findTasksDueSoon(endDate);
-    }
-
-
-
     public List<Task> searchTasks(String searchTerm) {
         return taskRepository.searchTasks(searchTerm);
     }
@@ -75,5 +68,9 @@ public class TaskService implements ITaskService {
 
     public List<Task> getUserCreatedTasks(User user) {
         return taskRepository.getUserCreatedTasks(user);
+    }
+
+    public List<Task> getUserTasks(User user) {
+        return taskRepository.getUserTasks(user);
     }
 }

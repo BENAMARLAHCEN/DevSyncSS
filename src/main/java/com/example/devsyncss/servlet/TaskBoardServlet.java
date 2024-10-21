@@ -32,7 +32,7 @@ public class TaskBoardServlet extends HttpServlet {
             resp.sendRedirect("login");
             return;
         }
-        List<Task> tasks = taskService.getUserCreatedTasks(user);
+        List<Task> tasks = taskService.getUserTasks(user);
         req.setAttribute("tasks", tasks);
         req.getRequestDispatcher("/tasks-board.jsp").forward(req, resp);
     }
@@ -49,7 +49,7 @@ public class TaskBoardServlet extends HttpServlet {
             response.getWriter().write("{\"success\": false, \"error\": \"Cannot cancel task that is not overdue\"}");
             return;
         }
-        if (task != null && task.getCreatedBy().getId().equals(user.getId())) {
+        if (task != null && (task.getCreatedBy().getId().equals(user.getId()) || task.getAssignedTo().getId().equals(user.getId()))) {
             task.setStatus(TaskStatus.valueOf(newStatus.toUpperCase()));
             taskService.updateTask(task);
             response.setContentType("application/json");

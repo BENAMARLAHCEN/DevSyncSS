@@ -15,8 +15,6 @@ public interface ITaskService {
 
     List<Task> getOverdueTasks();
 
-    List<Task> getUpcomingTasks(int days);
-
     List<Task> searchTasks(String searchTerm);
 
     Double getUserProductivityRate(User user, LocalDateTime startDate, LocalDateTime endDate);
@@ -28,4 +26,6 @@ public interface ITaskService {
     void updateTask(Task task);
 
     List<Task> getUserCreatedTasks(User user);
+
+    List<Task> getUserTasks(User user);
 }

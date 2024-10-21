@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.devsyncss.entities.Tag" %>
 <%@ page import="com.example.devsyncss.entities.Task" %>
